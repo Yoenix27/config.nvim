@@ -1,11 +1,44 @@
 return {
-    'nvim-telescope/telescope.nvim', tag = '0.1.8',
-    dependencies = { 'nvim-lua/plenary.nvim' },
+  {
+    "nvim-telescope/telescope.nvim",
+    tag = "0.1.8",
+    dependencies = {
+      "nvim-lua/plenary.nvim",
+      { "nvim-telescope/telescope-fzf-native.nvim", build = "make" },
+    },
     config = function()
-    local builtin = require('telescope.builtin')
-    vim.keymap.set('n', '<leader>ff', builtin.find_files, { desc = 'Telescope find files' })
-    vim.keymap.set('n', '<leader>fg', builtin.live_grep, { desc = 'Telescope live grep' })
-    vim.keymap.set('n', '<leader>fb', builtin.buffers, { desc = 'Telescope buffers' })
-    vim.keymap.set('n', '<leader>fh', builtin.help_tags, { desc = 'Telescope help tags' })
-end
+      local telescope = require("telescope")
+      local builtin = require("telescope.builtin")
+
+      telescope.setup({
+        defaults = {
+          vimgrep_arguments = {
+            "rg",
+            "--color=never",
+            "--no-heading",
+            "--with-filename",
+            "--line-number",
+            "--column",
+            "--smart-case",
+            "-uu",
+          },
+        },
+      })
+
+      telescope.load_extension("fzf")
+
+      vim.keymap.set("n", "<leader>pf", function()
+        builtin.find_files({ hidden = true })
+      end, {})
+      vim.keymap.set("n", "<leader>gh", require('telescope.builtin').help_tags)
+      vim.keymap.set("n", "<C-p>", builtin.git_files, {})
+      vim.keymap.set("n", "<leader>go", function()
+        require('telescope.builtin').buffers()
+      end)
+
+      vim.keymap.set("n", "<leader>ps", function()
+        builtin.grep_string({ search = vim.fn.input("Grep > ") })
+      end)
+    end,
+  },
 }

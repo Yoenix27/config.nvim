@@ -1,25 +1,15 @@
 return {
-    "nvim-treesitter/nvim-treesitter",  -- Fixed plugin name
-    build = ":TSUpdate",
-    config = function()
-        local configs = require("nvim-treesitter.configs")  -- Fixed require path
-        configs.setup({
-            highlight = {
-                enable = true,
-            },
-            indent = { enable = true },
-            autotag = { enable = true },  -- Fixed: "autotag" not "autotage"
-            ensure_installed = {
-                "lua",     -- Fixed: "lua" not "lus"
-                "tsx",
-                "typescript", 
-                "php",
-                "javascript",  -- Recommended addition
-                "html",        -- Recommended addition
-                "css",         -- Recommended addition
-                "json",        -- Recommended addition
-            },
-            auto_install = true,  -- Changed to true for better experience
-        })
-    end
+  "nvim-treesitter/nvim-treesitter",
+  event = { "BufReadPre", "BufNewFile" },
+  build = ":TSUpdate",
+  config = function()
+    require("nvim-treesitter.configs").setup({
+      ensure_installed = {
+        "vim", "vimdoc", "lua", "make", "bash", "markdown", "markdown_inline",  "yaml", 
+        "c", "cpp", "asm",  "html", "css", "javascript", "go","c_sharp" ,"python", "java", "sql", "gomod",
+      },
+      highlight = { enable = true },
+      indent = { enable = true },
+    })
+  end,
 }
