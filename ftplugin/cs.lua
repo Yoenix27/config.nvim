@@ -43,8 +43,5 @@ vim.cmd("compiler csharp")
 
 -- Key mappings for C# development
 local opts = { noremap = true, silent = true, buffer = true }
-vim.keymap.set('n', '<leader>bb', '<cmd>make<CR>', opts)
-vim.keymap.set('n', '<leader>br', '<cmd>!dotnet run<CR>', opts)
-vim.keymap.set('n', '<leader>cn', '<cmd>cnext<CR>', opts)
-vim.keymap.set('n', '<leader>cp', '<cmd>cprev<CR>', opts)
-vim.keymap.set('n', '<leader>cl', '<cmd>clist<CR>', opts)
+vim.keymap.set('n', '<leader>c', '<cmd>make<CR>', opts)
+vim.keymap.set('n', '<leader>r', '<cmd>!dotnet run<CR>', opts)

@@ -22,6 +22,7 @@ return {
   config = function()
     local servers = {
       pyright = true,
+            omnisharp = true,
       ruff = { manual_install = true },
       lua_ls = {
         cmd = { "lua-language-server" },
