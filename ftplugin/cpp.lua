@@ -9,4 +9,3 @@ for i, line in ipairs(content) do
 end
 
 vim.api.nvim_buf_set_lines(0, 0, -1, false, content)
-
