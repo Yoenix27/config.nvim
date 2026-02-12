@@ -20,25 +20,26 @@ return {
     "b0o/SchemaStore.nvim",
   },
   config = function()
-    local servers = {
-      pyright = true,
+local servers = {
+            pyright = true,
             omnisharp = true,
-      ruff = { manual_install = true },
-      lua_ls = {
-        cmd = { "lua-language-server" },
-        server_capabilities = {
-          semanticTokensProvider = vim.NIL,
-        },
-      },
+            jdtls = true,
+            ruff = { manual_install = true },
+            lua_ls = {
+                cmd = { "lua-language-server" },
+                server_capabilities = {
+                    semanticTokensProvider = vim.NIL,
+                },
+            },
 
-      ts_ls = {
-        root_dir = require("lspconfig").util.root_pattern("package.json"),
-        single_file = false,
-        server_capabilities = {
-          documentFormattingProvider = false,
-        },
-      },
-      --[[
+            ts_ls = {
+                root_dir = require("lspconfig").util.root_pattern("package.json"),
+                single_file = false,
+                server_capabilities = {
+                    documentFormattingProvider = false,
+                },
+            },
+            --[[
         jsonls = {
           server_capabilities = {
             documentFormattingProvider = false,
@@ -51,15 +52,15 @@ return {
           },
         },
        ]]
-      cssls = {
-        server_capabilities = {
-          documentFormattingProvider = false,
-        },
-      },
-      clangd = {
-        init_options = { clangdFileStatus = true },
-        filetypes = { "c", "cpp" },
-      },
+            cssls = {
+                server_capabilities = {
+                    documentFormattingProvider = false,
+                },
+            },
+            clangd = {
+                init_options = { clangdFileStatus = true },
+                filetypes = { "c", "cpp" },
+            },
     }
     local servers_to_install = vim.tbl_filter(function(key)
       local t = servers[key]

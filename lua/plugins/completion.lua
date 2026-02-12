@@ -1,6 +1,6 @@
 return {
   "hrsh7th/nvim-cmp",
-  event = "InsertEnter",
+  event = { "InsertEnter", "CmdlineEnter" },
   dependencies = {
     "hrsh7th/cmp-buffer", -- source for text in buffer
     "hrsh7th/cmp-path", -- source for file system paths
@@ -9,23 +9,32 @@ return {
       version = "v2.*",
       build = "make install_jsregexp",
     },
-    "saadparwaiz1/cmp_luasnip",   -- for autocompletion
-    "rafamadriz/friendly-snippets", -- useful snippets
-    "onsails/lspkind.nvim",       -- vs-code like pictograms
+    "saadparwaiz1/cmp_luasnip", -- for autocompletion
+    { 
+      "rafamadriz/friendly-snippets",
+      lazy = true,
+    },
+    "onsails/lspkind.nvim", -- vs-code like pictograms
   },
   config = function()
     local cmp = require("cmp")
-    local luasnip = require("luasnip")
+    local luasnip = require("luasnip") -- <-- required explicitly
     local lspkind = require("lspkind")
+
+    -- configure LuaSnip
+    luasnip.config.set_config({
+      history = false,
+      updateevents = "TextChanged,TextChangedI",
+    })
 
     -- loads vscode style snippets from installed plugins (e.g. friendly-snippets)
     require("luasnip.loaders.from_vscode").lazy_load()
 
     cmp.setup({
       completion = {
-        completeopt = "menu,menuone,preview,noselect",
+        completeopt = "menu,menuone,noselect",
       },
-      snippet = { -- configure how nvim-cmp interacts with snippet engine
+      snippet = {
         expand = function(args)
           luasnip.lsp_expand(args.body)
         end,
@@ -39,25 +48,8 @@ return {
       sources = cmp.config.sources({
         { name = "nvim_lsp" },
         { name = "luasnip" }, -- snippets
-        { name = "buffer" }, -- text within current buffer
-        { name = "path" }, -- file system paths
+        { name = "buffer", keyword_length = 3, max_item_count = 10 },
       }),
-
-
-
-      vim.keymap.set({ "i", "s"}, "<c-k>", function()
-        if luasnip.expand_or_jumpable() then
-          luasnip.expand_or_jump()
-        end
-      end, { silent = true }),
-
-      vim.keymap.set({ "i", "s"}, "<c-j>", function()
-        if luasnip.jumpable(-1) then
-          luasnip.jump(-1)
-        end
-      end, { silent = true }),
-
-      -- configure lspkind for vs-code like pictograms in completion menu
       formatting = {
         format = lspkind.cmp_format({
           maxwidth = 50,
@@ -66,24 +58,34 @@ return {
       },
       sorting = {
         comparators = {
-          cmp.config.compare.offset,
           cmp.config.compare.exact,
           cmp.config.compare.score,
           cmp.config.compare.recently_used,
-          cmp.config.compare.locality,
           cmp.config.compare.kind,
-          cmp.config.compare.sort_text,
           cmp.config.compare.length,
-          cmp.config.compare.order,
         },
       },
     })
 
+    -- keymaps for LuaSnip
+    vim.keymap.set({ "i", "s"}, "<C-k>", function()
+      if luasnip.expand_or_jumpable() then
+        luasnip.expand_or_jump()
+      end
+    end, { silent = true })
+
+    vim.keymap.set({ "i", "s"}, "<C-j>", function()
+      if luasnip.jumpable(-1) then
+        luasnip.jump(-1)
+      end
+    end, { silent = true })
+
+    -- load custom snippets
     for _, ft_path in ipairs(vim.api.nvim_get_runtime_file("lua/custom/snippets/*.lua", true)) do
       loadfile(ft_path)()
     end
 
-    --setup vim-dadbod
+    -- setup vim-dadbod for SQL
     cmp.setup.filetype({ "sql" }, {
       sources = {
         { name = "vim-dadbod-completion" },
@@ -91,7 +93,13 @@ return {
       },
     })
 
-
-
+    -- optional: cmdline setup (if needed)
+    cmp.setup.cmdline(":", {
+      sources = {
+        { name = "path" },
+        { name = "cmdline" },
+      },
+    })
   end,
 }
+
