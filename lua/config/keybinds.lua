@@ -8,7 +8,7 @@ vim.keymap.set("n", "<localleader>rp", "<cmd>CompetiTest receive problem<CR>")
 vim.keymap.set("n", "<localleader>at", "<cmd>CompetiTest add_testcase<CR>")
 vim.keymap.set("n", "<localleader>et", "<cmd>CompetiTest edit_testcase<CR>")
 vim.keymap.set("n", "<C-f>", "<cmd>silent !tmux neww ~/bin/tmux-sessionizer<CR>")
-
+vim.keymap.set("n", "<localleader>j", ":Compile<CR>")
 -- toggle fugitive
 local function toggle_fugitive()
     local winids = vim.api.nvim_list_wins()
