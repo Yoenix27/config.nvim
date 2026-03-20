@@ -6,7 +6,6 @@ return {
         "m00qek/baleia.nvim",
     },
     config = function()
-
         vim.g.compile_mode = {
             default_command = {
                 python = "python %",
@@ -21,5 +20,14 @@ return {
             bang_expansion = true,
             baleia_setup = true,
         }
+
+        vim.api.nvim_create_autocmd({ "BufWinEnter", "BufNew" }, {
+            pattern = "*compilation*",
+            callback = function()
+                vim.schedule(function()
+                    vim.cmd("wincmd J")
+                end)
+            end,
+        })
     end,
 }
