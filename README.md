@@ -5,6 +5,3 @@ don't copy paste like an idiot - take what fits, throw out the rest, build it ar
 
 ## install
 git clone https://github.com/yosunnyvim/config.nvim ~/.config/nvim
-
-## stack
-lazy.nvim · lsp · treesitter · telescope · harpoon · oil · competitest · tmux
