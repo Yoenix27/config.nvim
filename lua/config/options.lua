@@ -1,4 +1,3 @@
-print ("these are options .")
 --Line numbers
 vim.opt.nu = true
 vim.opt.relativenumber = true

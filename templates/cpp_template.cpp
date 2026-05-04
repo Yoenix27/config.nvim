@@ -12,7 +12,6 @@
 #include <bits/stdc++.h>
 
 using namespace std;
-using namespace std;
 typedef long long ll;
 typedef long double ld;
 
@@ -26,8 +25,10 @@ void solve() {
 }
 
 int main() {
-  ios_base::sync_with_stdio(false);                                            \
+  ios_base::sync_with_stdio(false);                                            
   cin.tie(NULL);
+    // freopen("input.txt", "r", stdin);
+    // freopen("output.txt", "w", stdout);
 
   ll tt = 1;
   // cin >> tt;
