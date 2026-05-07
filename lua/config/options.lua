@@ -35,3 +35,5 @@ vim.g.netrw_winsize = 25
 --spliting
 vim.cmd("set splitright")
 -- vim.cmd("set nosplitbelow")
+-- yank to clipboard
+vim.opt.clipboard = "unnamedplus"
